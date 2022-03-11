@@ -1,0 +1,68 @@
+orbs:
+  aws-eks: circleci/aws-eks@1.1.0
+  aws-ecr: circleci/aws-ecr@7.0.0
+  aws-cli: circleci/aws-cli@2.0.0
+  node: circleci/node@2.0.2
+
+jobs:
+  deploy-dev:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Deploy-Dev.
+          command: ssh -o StrictHostKeyChecking=no ec2-user@3.17.152.183 './script.sh';
+  health-check-dev: 
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Health-check-backend-logs.
+          command: ssh ec2-user@3.17.152.183 './script.sh';
+  deploy-qa:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Deploy-qa.
+          command: ssh ec2-user@3.17.152.183 './script.sh';
+  health-check-qa:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Health-check-backend-logs.
+          command: ssh ec2-user@3.17.152.183 './script.sh';
+version: 2.1
+workflows:
+  build_and_deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          account-url: https://us-east-2.console.aws.amazon.com/ecr/repositories/private/004830198648/xyz?region=us-east-2
+          aws-access-key-id: AKIAQCH7G7N4PU2EEP4O
+          aws-secret-access-key: 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
+          # context: myContext
+          create-repo: true
+          dockerfile: Env/Dev/Dockerfile
+          no-output-timeout: 20m
+          path: .
+          # profile-name: myProfileName
+          region: us-east-2
+          repo: xyzx
+          skip-when-tags-exist: false
+          tag: 'latest,0.1$CIRCLE_BUILD_NUM'
+          filters:
+            branches:
+              only: main
+      - deploy-dev:
+          requires:
+            - aws-ecr/build-and-push-image
+          filters:
+            branches:
+              only: main
+      - health-check-dev:
+          requires:
+            - deploy-dev
+          filters:
+            branches:
+              only: main
