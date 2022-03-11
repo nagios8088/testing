@@ -19,20 +19,7 @@ jobs:
       - run:
           name: Health-check-backend-logs.
           command: ssh ec2-user@3.17.152.183 './backend-health.sh';
-  deploy-qa:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Deploy-qa.
-          command: ssh ubuntu@13.49.194.15 './node-backend-qa-ssh.sh';
-  health-check-qa:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Health-check-backend-logs.
-          command: ssh ubuntu@13.49.194.15 './backend-health-qa.sh';
+  
 version: 2.1
 workflows:
   build_and_deploy:
