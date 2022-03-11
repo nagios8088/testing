@@ -18,7 +18,7 @@ jobs:
     steps:
       - run:
           name: Health-check-backend-logs.
-          command: ssh ec2-user@3.17.152.183 './backend-health.sh';
+          command: ssh ec2-user@3.17.152.183  './backend-health.sh';
   
 version: 2.1
 workflows:
