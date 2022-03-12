@@ -1,17 +1,8 @@
-FROM node:10-alpine
+FROM nginx:1.15.8
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+ADD static/fruit.json /usr/share/nginx/html/fruit.json
+ADD nginx.conf /etc/nginx/nginx.conf
 
-WORKDIR /home/node/app
+EXPOSE 80
 
-COPY .  .
-
-USER node
-
-RUN npm install
-
-COPY --chown=node:node . .
-
-EXPOSE 8080
-
-CMD [ "node", "app.js"
+CMD ["nginx", "-g", "daemon off;"]
