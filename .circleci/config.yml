@@ -12,13 +12,7 @@ jobs:
       - run:
           name: Deploy-Dev.
           command: ssh -o  StrictHostKeyChecking=no ec2-user@3.17.152.183 './script.sh';
-  health-check-dev: 
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Health-check-backend-logs.
-          command: ssh ec2-user@3.17.152.183  './backend-health.sh';
+  
   
 version: 2.1
 workflows:
@@ -29,13 +23,13 @@ workflows:
           aws-access-key-id: AWS_DEV_ACCESS_KEY
           aws-secret-access-key: AWS_DEV_SECRET_KEY
           # context: myContext
-          create-repo: false
+          create-repo: true
           dockerfile: Env/Dev/Dockerfile
           no-output-timeout: 20m
           path: .
           # profile-name: myProfileName
           region: AWS_REGION
-          repo: xyz
+          repo: newrepo
           skip-when-tags-exist: false
           tag: 'latest,0.1$CIRCLE_BUILD_NUM'
           filters:
@@ -44,12 +38,6 @@ workflows:
       - deploy-dev:
           requires:
             - aws-ecr/build-and-push-image
-          filters:
-            branches:
-              only: main
-      - health-check-dev:
-          requires:
-            - deploy-dev
           filters:
             branches:
               only: main
