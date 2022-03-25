@@ -29,7 +29,7 @@ workflows:
           path: .
           # profile-name: myProfileName
           region: AWS_REGION
-          repo: newrepo
+          repo: ashok
           skip-when-tags-exist: false
           tag: 'latest,0.1$CIRCLE_BUILD_NUM'
           filters:
