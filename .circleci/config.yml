@@ -9,7 +9,7 @@ jobs:
     machine:
       enabled: true
     steps:
-      - run:t resolve h
+      - run:
           name: Deploy-Dev.
           command: ssh -o  StrictHostKeyChecking=no ubuntu@18.224.40.236 './script.sh';
   
