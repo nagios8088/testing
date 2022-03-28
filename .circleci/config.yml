@@ -11,7 +11,7 @@ jobs:
     steps:
       - run:
           name: Deploy-Dev.
-          command: ssh -o  StrictHostKeyChecking=no ubuntu@18.224.40.236 './script.sh';
+          command: ssh -o  StrictHostKeyChecking=no ubuntu@52.15.120.2 './script.sh';
   
   
 version: 2.1
@@ -29,7 +29,7 @@ workflows:
           path: .
           # profile-name: myProfileName
           region: AWS_REGION
-          repo: ashok
+          repo: myrepo
           skip-when-tags-exist: false
           tag: 'latest,0.1$CIRCLE_BUILD_NUM'
           filters:
