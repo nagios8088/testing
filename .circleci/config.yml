@@ -12,8 +12,7 @@ jobs:
       - run:
           name: Deploy-Dev.
           command: ssh -o  StrictHostKeyChecking=no ubuntu@52.15.120.2 './script.sh';
-  
-  
+    
 version: 2.1
 workflows:
   build_and_deploy:
